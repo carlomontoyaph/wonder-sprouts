@@ -100,3 +100,18 @@ body {
   0%, 100% { opacity: 0.25; transform: scale(0.7); }
   50% { opacity: 1; transform: scale(1); }
 }
+
+@keyframes aaFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4%); }
+}
+
+@keyframes aaTwinkle {
+  0%, 100% { opacity: 0.3; transform: scale(0.7); }
+  50% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes aaSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

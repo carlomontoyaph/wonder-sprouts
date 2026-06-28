@@ -11,13 +11,13 @@ import { RainArt, SnowArt, ThunderArt, RainbowArt, UmbrellaArt } from './illustr
 import { SixlegsArt, ButterflyArt, BeeArt, FireflyArt, AntArt } from './illustrations/artBugs'
 import { HoneyArt2, MilkArt, FruitArt, WheatArt, CarrotArt } from './illustrations/artFood'
 import { Airplane2Art, TracksArt, FiretruckArt, BoatArt, BicycleArt } from './illustrations/artVehicles'
-import { Sunwater1Art, RootsArt, SeedArt, FlowerArt, LeafArt } from './illustrations/artPlants'
-import { MountainsArt, Water1Art, LavaArt, Recycle1Art, DesertArt } from './illustrations/artEarth'
+import { Sunwater1Art, RootsArt, SeedArt, FlowerArt, LeafArt, SunwaterArt } from './illustrations/artPlants'
+import { MountainsArt, Water1Art, LavaArt, Recycle1Art, DesertArt, WaterArt } from './illustrations/artEarth'
 import { MixgreenArt, TriangleArt, SphereArt, MixorangeArt, SquareArt } from './illustrations/artShapes'
 import { Pyramids1Art, PharaohArt, MummyArt, Nile2Art, CatArt } from './illustrations/artEgypt'
 import { LightbulbArt, WheelArt, Telephone1Art, ComputerArt, InventorArt } from './illustrations/artInventions'
 import { MapArt, ContinentsArt, FlagArt, AsiaArt, AntarcticaArt } from './illustrations/artWorld'
-import { PianoArt, SingingArt, Drum1Art, Band2Art, FluteArt } from './illustrations/artMusic'
+import { PianoArt, SingingArt, Drum1Art, Band2Art, FluteArt, BandArt } from './illustrations/artMusic'
 
 // Registry mapping kind strings to illustration components
 const ILLUSTRATIONS: Record<string, FC> = {
@@ -75,6 +75,7 @@ const ILLUSTRATIONS: Record<string, FC> = {
   boat: BoatArt,
   bicycle: BicycleArt,
   // Plants
+  sunwater: SunwaterArt,
   sunwater1: Sunwater1Art,
   roots: RootsArt,
   seed: SeedArt,
@@ -82,6 +83,7 @@ const ILLUSTRATIONS: Record<string, FC> = {
   leaf: LeafArt,
   // Earth
   mountains: MountainsArt,
+  water: WaterArt,
   water1: Water1Art,
   lava: LavaArt,
   recycle1: Recycle1Art,
@@ -113,6 +115,7 @@ const ILLUSTRATIONS: Record<string, FC> = {
   // Music
   piano: PianoArt,
   singing: SingingArt,
+  band: BandArt,
   drum1: Drum1Art,
   band2: Band2Art,
   flute: FluteArt,
@@ -158,7 +161,9 @@ export function AnswerArt({ kind, theme }: AnswerArtProps) {
 
   return (
     <div className={styles.container} style={{ background: bgColor }}>
-      <Art />
+      <div style={{ position: 'absolute', inset: 0, animation: 'aaFloat 3.6s ease-in-out infinite' }}>
+        <Art />
+      </div>
     </div>
   )
 }

@@ -63,6 +63,7 @@ export interface GameProgress {
   reduceMotion: boolean
   textBig: boolean
   hasSeenLanding: boolean
+  muted: boolean
 }
 
 export interface SessionState {
