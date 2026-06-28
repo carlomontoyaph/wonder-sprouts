@@ -1,0 +1,161 @@
+.screen {
+  flex: 1;
+  min-height: 0;
+  align-self: center;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 22px 22px 28px;
+  gap: 20px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 52px;
+  height: 52px;
+  flex: none;
+  cursor: pointer;
+}
+
+.greeting {
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  color: #4a3a28;
+  line-height: 1.1;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: #9a8e7c;
+  font-weight: 600;
+}
+
+.hero {
+  position: relative;
+  background: linear-gradient(160deg, #fff6e3, #fdefd2);
+  border: 2px solid #f4e6c7;
+  border-radius: 28px;
+  padding: 22px 20px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.heroBg {
+  position: absolute;
+  top: -30px;
+  right: -20px;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: rgba(123, 174, 127, 0.12);
+}
+
+.speechBubble {
+  position: relative;
+  align-self: flex-start;
+  background: #ffffff;
+  border: 1.5px solid #f0e2c4;
+  border-radius: 16px 16px 16px 4px;
+  padding: 10px 14px;
+  font-weight: 700;
+  color: #6e5a3a;
+  font-size: 14.5px;
+  max-width: 220px;
+}
+
+.heroMascot {
+  width: 150px;
+  height: 150px;
+}
+
+.ctaButton {
+  margin-top: 4px;
+  width: 100%;
+  border: 0;
+  cursor: pointer;
+  background: #e8946a;
+  color: #fff;
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: 21px;
+  padding: 16px;
+  border-radius: 20px;
+  box-shadow: 0 5px 0 #c8744e;
+  transition: box-shadow 0.1s ease;
+}
+
+.ctaButton:active {
+  box-shadow: 0 1px 0 #c8744e;
+}
+
+.wonderCard {
+  background: #eef5ee;
+  border: 2px solid #d9e9d9;
+  border-radius: 22px;
+  padding: 18px;
+}
+
+.wonderHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.wonderDot {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #7bae7f;
+}
+
+.wonderLabel {
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #5c8560;
+}
+
+.wonderPrompt {
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  color: #3e5c42;
+  line-height: 1.3;
+}
+
+.wonderFooter {
+  font-size: 13px;
+  color: #7e9a82;
+  font-weight: 600;
+  margin-top: 6px;
+}
+
+.footer {
+  text-align: center;
+  margin-top: auto;
+  padding-top: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #b0a188;
+}

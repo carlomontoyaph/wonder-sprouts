@@ -1,0 +1,275 @@
+.screen {
+  flex: 1;
+  min-height: 0;
+  align-self: center;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 18px 20px 24px;
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.bgCircle {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.confettiLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+}
+
+.coinFlyLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 41;
+  pointer-events: none;
+}
+
+.topBar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  position: relative;
+  z-index: 1;
+}
+
+.backBtn {
+  width: 40px;
+  height: 40px;
+  flex: none;
+  border-radius: 50%;
+  border: 1.5px solid #efe2cc;
+  background: #fff;
+  cursor: pointer;
+  font-size: 19px;
+  color: #8a7c68;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.progressArea {
+  flex: 1;
+  min-width: 0;
+}
+
+.progressHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 7px;
+}
+
+.topicName {
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.qCounter {
+  font-size: 13px;
+  font-weight: 700;
+  color: #9a8e7c;
+  flex: none;
+  margin-left: 8px;
+}
+
+.progressTrack {
+  height: 9px;
+  background: #f1eadc;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+
+.topicsBtn {
+  flex: none;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0 12px 0 10px;
+  border-radius: 999px;
+  border: 1.5px solid #efe2cc;
+  background: #fff;
+  cursor: pointer;
+  color: #8a7c68;
+  font-family: inherit;
+}
+
+.topicsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5px;
+  width: 14px;
+  height: 14px;
+}
+
+.topicsGrid span {
+  background: currentColor;
+  border-radius: 2px;
+}
+
+.topicsLabel {
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.questionArea {
+  position: relative;
+  z-index: 1;
+}
+
+.answers {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.nextBtn {
+  margin-top: 18px;
+  width: 100%;
+  border: 0;
+  cursor: pointer;
+  background: #e8946a;
+  color: #fff;
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  padding: 15px;
+  border-radius: 18px;
+  box-shadow: 0 5px 0 #c8744e;
+  transition: box-shadow 0.1s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.nextBtn:active {
+  box-shadow: 0 1px 0 #c8744e;
+}
+
+/* Timer badge */
+.timerBadge {
+  flex: none;
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  background: #fff;
+  border: 1.5px solid #efe2cc;
+  border-radius: 999px;
+  padding: 4px 10px;
+  white-space: nowrap;
+}
+
+/* Pause button */
+.pauseBtn {
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid #efe2cc;
+  background: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  line-height: 1;
+}
+
+/* Limit-reached banner */
+.limitBanner {
+  position: relative;
+  z-index: 1;
+  background: #eef5ee;
+  border: 2px solid #d9e9d9;
+  border-radius: 14px;
+  padding: 10px 14px;
+  margin-bottom: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #3e5c42;
+  text-align: center;
+  overflow: hidden;
+}
+
+/* Pause overlay */
+.pauseOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(74, 58, 40, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 22px;
+}
+
+.pauseCard {
+  background: #fbf7f0;
+  border: 2px solid #f0e7d6;
+  border-radius: 28px;
+  padding: 32px 28px;
+  max-width: 320px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(74, 58, 40, 0.25);
+}
+
+.pauseMascot {
+  width: 100px;
+  height: 100px;
+}
+
+.pauseTitle {
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 800;
+  font-size: 24px;
+  color: #4a3a28;
+}
+
+.pauseBody {
+  font-size: 14px;
+  color: #8a7c68;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.pauseContinue {
+  width: 100%;
+  border: 0;
+  cursor: pointer;
+  background: #e8946a;
+  color: #fff;
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  padding: 14px;
+  border-radius: 18px;
+  margin-top: 8px;
+}

@@ -1,0 +1,179 @@
+.screen {
+  flex: 1;
+  min-height: 0;
+  align-self: center;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 22px;
+  gap: 16px;
+  text-align: center;
+}
+
+.perfectMascots {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 4px;
+  width: 100%;
+}
+
+.sideMascot {
+  width: 92px;
+  height: 92px;
+  margin-bottom: 8px;
+}
+
+.mainMascot {
+  width: 140px;
+  height: 140px;
+}
+
+.singleMascot {
+  width: 140px;
+  height: 140px;
+}
+
+.perfectBanner {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  background: #fff3d6;
+  border: 2px solid #f2dca0;
+  border-radius: 999px;
+  padding: 7px 16px;
+}
+
+.perfectStar {
+  display: inline-block;
+  width: 17px;
+  height: 17px;
+  background: #ebb347;
+  clip-path: polygon(50% 0, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+}
+
+.perfectText {
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #b8862e;
+}
+
+.title {
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 800;
+  font-size: 28px;
+  color: #4a3a28;
+}
+
+.subtitle {
+  font-size: 15px;
+  color: #8a7c68;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+.rewards {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.rewardPill {
+  flex: 1;
+  background: #fff;
+  border: 2px solid #f0e7d6;
+  border-radius: 18px;
+  padding: 14px 8px;
+}
+
+.rewardValue {
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 800;
+  font-size: 22px;
+}
+
+.rewardLabel {
+  font-size: 12px;
+  font-weight: 700;
+  color: #9a8e7c;
+}
+
+.conversationCard {
+  width: 100%;
+  text-align: left;
+  background: #eef5ee;
+  border: 2px solid #d9e9d9;
+  border-radius: 20px;
+  padding: 16px;
+}
+
+.conversationLabel {
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #5c8560;
+  margin-bottom: 6px;
+}
+
+.conversationPrompt {
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 600;
+  font-size: 17px;
+  color: #3e5c42;
+  line-height: 1.3;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  margin-top: 2px;
+}
+
+.playAgainBtn {
+  width: 100%;
+  border: 0;
+  cursor: pointer;
+  background: #e8946a;
+  color: #fff;
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  padding: 15px;
+  border-radius: 18px;
+}
+
+.tryAnotherBtn {
+  width: 100%;
+  border: 0;
+  cursor: pointer;
+  background: #7bae7f;
+  color: #fff;
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  padding: 14px;
+  border-radius: 18px;
+}
+
+.backHomeBtn {
+  width: 100%;
+  cursor: pointer;
+  background: #fff;
+  color: #8a7c68;
+  border: 2px solid #efe2cc;
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  padding: 13px;
+  border-radius: 18px;
+}

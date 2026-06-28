@@ -1,0 +1,102 @@
+/* ===== Reset & Base ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+*::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+body {
+  margin: 0;
+  font-family: Nunito, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100dvh;
+}
+
+/* ===== Design Tokens (CSS Custom Properties) ===== */
+:root {
+  /* Backgrounds */
+  --app-bg: #efe7d8;
+  --surface: #fbf7f0;
+
+  /* Text */
+  --ink: #4a3a28;
+  --ink-secondary: #8a7c68;
+  --ink-muted: #9a8e7c;
+  --ink-faint: #b0a188;
+
+  /* Primary action */
+  --primary: #e8946a;
+  --primary-shadow: #c8744e;
+
+  /* Success / green */
+  --green: #7bae7f;
+  --green-deep: #5c8560;
+  --green-dark: #3e6b45;
+  --green-bg: #eaf4ea;
+  --green-card: #eef5ee;
+  --green-border: #d9e9d9;
+
+  /* Gold / XP */
+  --gold: #ebb347;
+  --gold-deep: #b8862e;
+  --gold-ring: #f3c969;
+  --gold-coin: #e0a63e;
+
+  /* Card borders */
+  --card-border: #f0e7d6;
+  --card-border-warm: #f4e6c7;
+
+  /* Warm card */
+  --warm-card: #fff6e3;
+  --warm-card-alt: #fdefd2;
+
+  /* Radii */
+  --radius-sm: 16px;
+  --radius-md: 18px;
+  --radius-lg: 22px;
+  --radius-xl: 28px;
+  --radius-pill: 999px;
+
+  /* Shadow */
+  --shadow-hard: 0 4px 0 rgba(74, 58, 40, 0.05);
+  --shadow-window: 0 30px 70px rgba(74, 58, 40, 0.2);
+}
+
+/* ===== Font classes ===== */
+.font-baloo {
+  font-family: 'Baloo 2', sans-serif;
+}
+
+/* ===== Reduce Motion ===== */
+.ft-reduce *,
+.ft-reduce *::before,
+.ft-reduce *::after {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* ===== Bigger Text ===== */
+.ft-big > div {
+  zoom: 1.13;
+}
+
+/* ===== Shared Keyframes ===== */
+@keyframes sparkleTwinkle {
+  0%, 100% { opacity: 0.25; transform: scale(0.7); }
+  50% { opacity: 1; transform: scale(1); }
+}

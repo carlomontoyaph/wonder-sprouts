@@ -1,0 +1,163 @@
+.screen {
+  flex: 1;
+  min-height: 0;
+  align-self: center;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 22px 20px 28px;
+  gap: 18px;
+}
+
+.pageTitle {
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 800;
+  font-size: 22px;
+  color: #4a3a28;
+}
+
+.sectionLabel {
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: #8a7c68;
+  margin: 0 2px 9px;
+}
+
+.card {
+  background: #ffffff;
+  border: 2px solid #f0e7d6;
+  border-radius: 18px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.fieldLabel {
+  display: block;
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: 13.5px;
+  color: #4a3a28;
+  margin-bottom: 7px;
+}
+
+.nameInput {
+  width: 100%;
+  box-sizing: border-box;
+  font-family: Nunito, sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  color: #4a3a28;
+  background: #fbf7f0;
+  border: 2px solid #efe2cc;
+  border-radius: 14px;
+  padding: 12px 14px;
+  outline: none;
+}
+
+.nameInput:focus {
+  border-color: #e8946a;
+}
+
+.avatarGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.avatarBtn {
+  cursor: pointer;
+  background: #fbf7f0;
+  border-radius: 18px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatarPreview {
+  display: block;
+  width: 52px;
+  height: 52px;
+}
+
+.preferenceRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.prefTitle {
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: 14.5px;
+  color: #4a3a28;
+}
+
+.prefDesc {
+  font-size: 12px;
+  color: #9a8e7c;
+  font-weight: 600;
+}
+
+.howToPlayCard {
+  background: #eef5ee;
+  border: 2px solid #d9e9d9;
+  border-radius: 18px;
+  padding: 16px;
+  display: flex;
+  gap: 13px;
+  align-items: flex-start;
+}
+
+.howToPlayMascot {
+  width: 54px;
+  height: 54px;
+  flex: none;
+}
+
+.howToPlayTitle {
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  color: #3e5c42;
+  margin-bottom: 4px;
+}
+
+.howToPlayDesc {
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: #3e5c42;
+  font-weight: 600;
+}
+
+.aboutRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 2px 4px;
+}
+
+.versionText {
+  font-size: 12px;
+  color: #b0a188;
+  font-weight: 600;
+}
+
+.parentBtn {
+  cursor: pointer;
+  background: #fff;
+  border: 1.5px solid #dad2ec;
+  color: #7c6ba8;
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  padding: 8px 14px;
+  border-radius: 999px;
+}

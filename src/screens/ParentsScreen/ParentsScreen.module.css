@@ -1,0 +1,359 @@
+.screen {
+  flex: 1;
+  min-height: 0;
+  align-self: center;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 22px 20px 28px;
+  gap: 18px;
+}
+
+.dashboardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dashboardTitle {
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 800;
+  font-size: 22px;
+  color: #4a3a28;
+  line-height: 1.05;
+}
+
+.dashboardSub {
+  font-size: 13px;
+  color: #9a8e7c;
+  font-weight: 600;
+}
+
+.unlockedBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #ede6f5;
+  color: #7c6ba8;
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: 11px;
+  padding: 5px 11px;
+  border-radius: 999px;
+}
+
+.sectionTitle {
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: #8a7c68;
+  margin: 0 2px 9px;
+}
+
+.statGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.statBox {
+  background: #ffffff;
+  border: 2px solid #f0e7d6;
+  border-radius: 16px;
+  padding: 14px;
+}
+
+.statNum {
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 800;
+  font-size: 22px;
+  color: #4a3a28;
+}
+
+.statDesc {
+  font-size: 12px;
+  font-weight: 700;
+  color: #9a8e7c;
+}
+
+.controlsCard {
+  background: #ffffff;
+  border: 2px solid #f0e7d6;
+  border-radius: 18px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.controlRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.controlLabel {
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: 14.5px;
+  color: #4a3a28;
+}
+
+.controlDesc {
+  font-size: 12px;
+  color: #9a8e7c;
+  font-weight: 600;
+}
+
+.pillGroup {
+  display: flex;
+  gap: 6px;
+  flex: none;
+}
+
+.pillBtn {
+  cursor: pointer;
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1.5px solid #efe2cc;
+}
+
+.topicHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.topicCount {
+  font-size: 12px;
+  font-weight: 700;
+  color: #9a8e7c;
+}
+
+.topicList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.topicRow {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.topicIcon {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.topicIcon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.topicName {
+  flex: 1;
+  font-family: Nunito, sans-serif;
+  font-weight: 700;
+  font-size: 14.5px;
+  color: #4a3a28;
+}
+
+.toggleTrack {
+  flex: none;
+  width: 42px;
+  height: 24px;
+  border-radius: 999px;
+  border: 0;
+  cursor: pointer;
+  position: relative;
+  transition: background 0.2s ease;
+}
+
+.toggleKnob {
+  position: absolute;
+  top: 2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  transition: left 0.2s ease;
+}
+
+.limitGroup {
+  display: flex;
+  gap: 6px;
+}
+
+.limitBtn {
+  flex: 1;
+  cursor: pointer;
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  padding: 9px 4px;
+  border-radius: 12px;
+  border: 1.5px solid #efe2cc;
+}
+
+.tipCard {
+  background: #eef5ee;
+  border: 2px solid #d9e9d9;
+  border-radius: 18px;
+  padding: 16px;
+}
+
+.tipHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 7px;
+}
+
+.tipLabel {
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #5c8560;
+}
+
+.tipBtn {
+  cursor: pointer;
+  background: #fff;
+  border: 1.5px solid #cfe3cf;
+  color: #5c8560;
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.tipText {
+  font-size: 14.5px;
+  line-height: 1.4;
+  color: #3e5c42;
+  font-weight: 600;
+}
+
+.footerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 2px 4px;
+}
+
+/* Reset confirmation modal */
+.modalScrim {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(74, 58, 40, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 22px;
+}
+
+.modalCard {
+  background: #fbf7f0;
+  border: 2px solid #f0e7d6;
+  border-radius: 24px;
+  padding: 28px 24px;
+  max-width: 360px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(74, 58, 40, 0.25);
+}
+
+.modalIcon {
+  font-size: 36px;
+}
+
+.modalTitle {
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 800;
+  font-size: 20px;
+  color: #4a3a28;
+  line-height: 1.2;
+}
+
+.modalBody {
+  font-size: 14px;
+  color: #8a7c68;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.modalButtons {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  margin-top: 4px;
+}
+
+.modalCancel {
+  flex: 1;
+  cursor: pointer;
+  background: #ffffff;
+  color: #8a7c68;
+  border: 2px solid #efe2cc;
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  padding: 12px;
+  border-radius: 16px;
+}
+
+.modalConfirm {
+  flex: 1;
+  cursor: pointer;
+  background: #e8946a;
+  color: #fff;
+  border: 0;
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  padding: 12px;
+  border-radius: 16px;
+}
+
+.versionText {
+  font-size: 12px;
+  color: #b0a188;
+  font-weight: 600;
+}
+
+.resetBtn {
+  cursor: pointer;
+  background: #fff;
+  border: 1.5px solid #f0d4cc;
+  color: #c8744e;
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  padding: 8px 14px;
+  border-radius: 999px;
+}
