@@ -293,6 +293,7 @@ export const TOPICS: Topic[] = [
 
 export const CATEGORIES: { key: CategoryKey; label: string }[] = [
   { key: 'all', label: 'All' },
+  { key: 'books', label: 'Your books' },
   { key: 'nature', label: 'Nature & Animals' },
   { key: 'science', label: 'Science & Tech' },
   { key: 'world', label: 'World & Fun' },
@@ -300,13 +301,18 @@ export const CATEGORIES: { key: CategoryKey; label: string }[] = [
 
 export const CATEGORY_DOTS: Record<CategoryKey, string> = {
   all: '#B7A98E',
+  books: '#8A6FBF',
   nature: '#7BAE7F',
   science: '#7C84C4',
   world: '#C9A24B',
 }
 
-export function getTopicByKey(key: string): Topic {
-  return TOPICS.find((t) => t.key === key) || TOPICS[0]
+export function getTopicByKey(key: string, custom: Topic[] = []): Topic {
+  return (
+    custom.find((t) => t.key === key) ||
+    TOPICS.find((t) => t.key === key) ||
+    TOPICS[0]
+  )
 }
 
 export function getActiveQuestions(topic: Topic, sessionLen: number) {

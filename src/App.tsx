@@ -12,8 +12,9 @@ const ParentsScreen = lazy(() => import('./screens/ParentsScreen/ParentsScreen')
 const SettingsScreen = lazy(() => import('./screens/SettingsScreen/SettingsScreen').then(m => ({ default: m.SettingsScreen })))
 const LandingScreen = lazy(() => import('./screens/LandingScreen/LandingScreen').then(m => ({ default: m.LandingScreen })))
 const ArtGalleryScreen = lazy(() => import('./screens/ArtGalleryScreen/ArtGalleryScreen').then(m => ({ default: m.ArtGalleryScreen })))
+const QuizMakerScreen = lazy(() => import('./screens/QuizMakerScreen/QuizMakerScreen').then(m => ({ default: m.QuizMakerScreen })))
 
-const SCREENS_WITH_NAV = ['home', 'topics', 'progress', 'parents', 'settings']
+const SCREENS_WITH_NAV = ['home', 'topics', 'progress', 'parents', 'settings', 'quizmaker']
 
 function ScreenFallback() {
   return (
@@ -95,17 +96,20 @@ export default function App() {
           {state.screen === 'parents' && <ParentsScreen />}
           {state.screen === 'settings' && <SettingsScreen />}
           {state.screen === 'landing' && <LandingScreen />}
+          {state.screen === 'quizmaker' && <QuizMakerScreen />}
         </Suspense>
 
         {/* Bottom nav */}
         {SCREENS_WITH_NAV.includes(state.screen) && (
           <BottomNav
-            currentScreen={state.screen}
+            currentScreen={state.postGateDestination ?? state.screen}
             onNavigate={(screen) => {
               if (window.FTSound) window.FTSound.tap()
               if (screen === 'home') dispatch({ type: 'GO_HOME' })
               else if (screen === 'progress')
                 dispatch({ type: 'SET_SCREEN', screen: 'progress' })
+              else if (screen === 'quizmaker')
+                dispatch({ type: 'REQUEST_GATED_SCREEN', destination: 'quizmaker' })
               else if (screen === 'parents')
                 dispatch({ type: 'GO_PARENTS' })
               else if (screen === 'settings')

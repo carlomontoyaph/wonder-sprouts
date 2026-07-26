@@ -4,6 +4,7 @@ import { Mascot } from '../../components/Mascot/Mascot'
 import { ProgressRing } from '../../components/ProgressRing/ProgressRing'
 import { GAME_CONSTANTS } from '../../constants/game'
 import { getTopicByKey } from '../../data/topics'
+import { Topic } from '../../types'
 import styles from './SummaryScreen.module.css'
 
 export function SummaryScreen() {
@@ -121,7 +122,7 @@ export function SummaryScreen() {
       <div className={styles.conversationCard}>
         <div className={styles.conversationLabel}>Keep the wonder going</div>
         <div className={styles.conversationPrompt}>
-          {getConversationPrompt(state.topicKey || '')}
+          {getConversationPrompt(state.topicKey || '', state.customTopics)}
         </div>
       </div>
 
@@ -152,7 +153,7 @@ export function SummaryScreen() {
   )
 }
 
-function getConversationPrompt(topicKey: string): string {
-  const topic = getTopicByKey(topicKey)
+function getConversationPrompt(topicKey: string, customTopics: Topic[]): string {
+  const topic = getTopicByKey(topicKey, customTopics)
   return topic?.summaryPrompt || 'What do you want to learn about next?'
 }

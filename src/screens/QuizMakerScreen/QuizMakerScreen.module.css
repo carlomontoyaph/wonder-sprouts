@@ -1,0 +1,422 @@
+.screen {
+  flex: 1;
+  min-height: 0;
+  align-self: center;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 22px 20px 28px;
+  gap: 18px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.backBtn {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  border: 1.5px solid #efe2cc;
+  background: #fff;
+  color: #8a7c68;
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 800;
+  font-size: 22px;
+  color: #4a3a28;
+  line-height: 1.05;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: #9a8e7c;
+  font-weight: 600;
+}
+
+.card {
+  background: #ffffff;
+  border: 2px solid #f0e7d6;
+  border-radius: 18px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.hint {
+  font-size: 14px;
+  color: #6c5f4b;
+  line-height: 1.4;
+  font-weight: 600;
+}
+
+.notice {
+  font-size: 13px;
+  color: #7a6a54;
+  line-height: 1.4;
+  font-weight: 600;
+  background: #fdf3dc;
+  border: 1px solid #f2e2b8;
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+
+.label {
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  color: #6c5f4b;
+}
+
+.input {
+  border: 1.5px solid #efe2cc;
+  background: #fff;
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-family: Nunito, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #4a3a28;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.input:focus {
+  border-color: #8a6fbf;
+}
+
+.thumbGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+  gap: 8px;
+}
+
+.thumb {
+  aspect-ratio: 3 / 4;
+  border-radius: 12px;
+  background-size: cover;
+  background-position: center;
+  border: 1.5px solid #efe2cc;
+  position: relative;
+}
+
+.thumbRemove {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 0;
+  background: rgba(74, 58, 40, 0.75);
+  color: #fff;
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.captureRow {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.addPhotoBtn {
+  cursor: pointer;
+  border: 2px dashed #d8caae;
+  background: #fbf7f0;
+  color: #8a7c68;
+  border-radius: 14px;
+  padding: 18px;
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.actionRow {
+  display: flex;
+  gap: 10px;
+}
+
+.primaryBtn {
+  flex: 1;
+  cursor: pointer;
+  background: #8a6fbf;
+  color: #fff;
+  border: 0;
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  padding: 12px;
+  border-radius: 16px;
+  transition: background 0.15s ease;
+}
+
+.primaryBtn:disabled {
+  background: #d8caae;
+  cursor: not-allowed;
+}
+
+.secondaryBtn {
+  cursor: pointer;
+  background: #fff;
+  color: #8a7c68;
+  border: 2px solid #efe2cc;
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  padding: 12px 16px;
+  border-radius: 16px;
+}
+
+.errBanner {
+  background: #fbe7e3;
+  border: 2px solid #f0d4cc;
+  color: #b45a3a;
+  border-radius: 14px;
+  padding: 12px 14px;
+  font-size: 13.5px;
+  font-weight: 700;
+}
+
+.aiModeRow {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #fbf7f0;
+  border: 1.5px solid #efe2cc;
+  border-radius: 14px;
+  padding: 12px;
+}
+
+.aiModeRowFailed {
+  background: #fff3e6;
+  border-color: #f2c99a;
+  border-left: 4px solid #e8946a;
+}
+
+.aiModeHint {
+  font-size: 13px;
+  font-weight: 700;
+  color: #b45a3a;
+  line-height: 1.35;
+}
+
+.aiModeControls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.aiModeField {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1 1 160px;
+  min-width: 0;
+}
+
+.aiModeLabel {
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  color: #8a7c68;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.aiProviderPills {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.aiPillBtn {
+  cursor: pointer;
+  border: 1.5px solid #efe2cc;
+  background: #ffffff;
+  color: #8a7c68;
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  padding: 6px 12px;
+  border-radius: 999px;
+}
+
+.aiPillBtnActive {
+  background: #4a3a28;
+  color: #ffffff;
+  border-color: #4a3a28;
+}
+
+.aiModelSelect {
+  border: 1.5px solid #efe2cc;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 8px 10px;
+  font-family: Nunito, sans-serif;
+  font-weight: 700;
+  font-size: 13.5px;
+  color: #4a3a28;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.aiModelSelect:focus {
+  border-color: #8a6fbf;
+}
+
+.aiKeyMissingRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  justify-content: space-between;
+  background: #fff;
+  border: 1.5px solid #f2c99a;
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+
+.aiKeyMissingText {
+  flex: 1 1 180px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #b45a3a;
+  line-height: 1.35;
+  min-width: 0;
+}
+
+.aiSettingsBtn {
+  cursor: pointer;
+  background: #4a3a28;
+  color: #ffffff;
+  border: 1.5px solid #4a3a28;
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.progressWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 20px 0;
+}
+
+.progressRing {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  border: 6px solid #f0e7d6;
+  border-top-color: #8a6fbf;
+  animation: qmSpin 1.1s linear infinite;
+}
+
+@keyframes qmSpin {
+  to { transform: rotate(360deg); }
+}
+
+:global(.ft-reduce) .progressRing {
+  animation: none;
+  border-top-color: #8a6fbf;
+}
+
+.progressPct {
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 800;
+  font-size: 20px;
+  color: #4a3a28;
+}
+
+.progressCaption {
+  font-size: 13px;
+  color: #9a8e7c;
+  font-weight: 600;
+  text-align: center;
+  max-width: 260px;
+  line-height: 1.4;
+}
+
+.reviewList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.reviewQ {
+  background: #ffffff;
+  border: 2px solid #f0e7d6;
+  border-radius: 14px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.reviewQText {
+  font-weight: 700;
+  font-size: 14.5px;
+  color: #4a3a28;
+  line-height: 1.35;
+}
+
+.reviewAnswers {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.reviewAnswer {
+  padding: 6px 10px;
+  border-radius: 10px;
+  background: #fbf7f0;
+  border: 1.5px solid #efe2cc;
+  font-size: 13px;
+  font-weight: 600;
+  color: #6c5f4b;
+}
+
+.reviewCorrect {
+  background: #eef5ee;
+  border-color: #cfe3cf;
+  color: #3e5c42;
+}
+
+.savedBox {
+  text-align: center;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.savedIcon {
+  font-size: 44px;
+}

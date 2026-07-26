@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion'
-import { CategoryKey } from '../../types'
+import { CategoryKey, Topic } from '../../types'
 import { CATEGORIES, CATEGORY_DOTS, TOPICS } from '../../data/topics'
+import { useGame } from '../../context/GameContext'
 
 interface CategorySheetProps {
   open: boolean
@@ -17,8 +18,10 @@ export function CategorySheet({
   onSelect,
   onClose,
 }: CategorySheetProps) {
+  const { state } = useGame()
+  const allTopics: Topic[] = [...(state.customTopics || []), ...TOPICS]
   const catCount = (k: CategoryKey) =>
-    TOPICS.filter((tp) => !hiddenTopics[tp.key]).filter(
+    allTopics.filter((tp) => !hiddenTopics[tp.key]).filter(
       (tp) => k === 'all' || tp.cat === k,
     ).length
 

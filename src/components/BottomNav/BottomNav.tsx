@@ -33,6 +33,17 @@ const NAV_ITEMS: NavItem[] = [
     ),
   },
   {
+    screen: 'quizmaker',
+    label: 'Create',
+    icon: (
+      <svg viewBox="0 0 22 22" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="3" width="16" height="16" rx="4" />
+        <line x1="11" y1="8" x2="11" y2="14" />
+        <line x1="8" y1="11" x2="14" y2="11" />
+      </svg>
+    ),
+  },
+  {
     screen: 'parents',
     label: 'Parents',
     icon: (
