@@ -1,7 +1,15 @@
-import { AppState, GameProgress, CategoryKey, MascotVariant, ScreenName } from '../types'
+import { AppState, GameProgress, CategoryKey, MascotVariant, ScreenName, Topic, AiProvider } from '../types'
 import { GAME_CONSTANTS, STORAGE_KEY } from '../constants/game'
 import { shuffleOrder } from '../utils/shuffle'
 import { getTopicByKey, getActiveQuestions } from '../data/topics'
+
+const MAX_CUSTOM_TOPICS = 20
+
+const AI_DEFAULT_MODELS: Record<AiProvider, string> = {
+  anthropic: 'claude-haiku-4-5-20251001',
+  openai: 'gpt-4o-mini',
+  gemini: 'gemini-2.0-flash',
+}
 
 export type GameAction =
   | { type: 'SET_SCREEN'; screen: ScreenName }
@@ -9,7 +17,6 @@ export type GameAction =
   | { type: 'ANSWER_QUESTION'; answerIndex: number }
   | { type: 'NEXT_QUESTION' }
   | { type: 'GO_BACK' }
-  | { type: 'LOAD_PROGRESS'; progress: Partial<GameProgress> }
   | { type: 'PULSE_COINS_DONE' }
   | { type: 'SET_CHILD_NAME'; name: string }
   | { type: 'SET_AVATAR'; variant: MascotVariant }
@@ -29,6 +36,16 @@ export type GameAction =
   | { type: 'GO_TOPICS' }
   | { type: 'GO_PARENTS' }
   | { type: 'GO_LANDING' }
+  | { type: 'GO_QUIZMAKER' }
+  | { type: 'REQUEST_GATED_SCREEN'; destination: ScreenName }
+  | { type: 'SAVE_CUSTOM_TOPIC'; topic: Topic }
+  | { type: 'DELETE_CUSTOM_TOPIC'; key: string }
+  | { type: 'CLEAR_CUSTOM_TOPICS' }
+  | { type: 'SET_AI_ENABLED'; enabled: boolean }
+  | { type: 'SET_AI_PROVIDER'; provider: AiProvider | null }
+  | { type: 'SET_AI_API_KEY'; key: string }
+  | { type: 'SET_AI_MODEL'; model: string }
+  | { type: 'SET_BOOK_QUIZ_LEN'; len: 3 | 5 | 10 }
   | { type: 'PLAY_AGAIN' }
   | { type: 'UPDATE_VIEWPORT'; width: number }
   | { type: 'ENTER_APP' }
@@ -45,6 +62,7 @@ export const initialState: AppState = {
   qIndex: 0,
   sessionAnswers: [],
   shuffles: [],
+  questionOrder: [],
   sessionXp: 0,
   sessionCoins: 0,
   correctCount: 0,
@@ -75,6 +93,14 @@ export const initialState: AppState = {
   gateError: false,
   tipIndex: 0,
   pulseCoins: false,
+  customTopics: [],
+  aiEnabled: false,
+  aiProvider: null,
+  aiApiKeys: {},
+  aiModel: '',
+  bookQuizLen: 5,
+  customTopicSaveError: null,
+  postGateDestination: null,
 }
 
 function newGate(): Pick<AppState, 'gateA' | 'gateB' | 'gateChoices' | 'gateError'> {
@@ -89,43 +115,58 @@ function newGate(): Pick<AppState, 'gateA' | 'gateB' | 'gateChoices' | 'gateErro
   return { gateA: a, gateB: b, gateChoices: choices, gateError: false }
 }
 
+function serialize(state: GameProgress): string {
+  return JSON.stringify({
+    xp: state.xp,
+    coins: state.coins,
+    progress: state.progress,
+    factsLearned: state.factsLearned,
+    sessions: state.sessions,
+    streak: state.streak,
+    lastPlayed: state.lastPlayed,
+    perfectTopics: state.perfectTopics,
+    playSeconds: state.playSeconds,
+    todaySeconds: state.todaySeconds,
+    todayDate: state.todayDate,
+    dailyLimitMin: state.dailyLimitMin,
+    hiddenTopics: state.hiddenTopics,
+    sessionLen: state.sessionLen,
+    childName: state.childName,
+    avatarVariant: state.avatarVariant,
+    reduceMotion: state.reduceMotion,
+    textBig: state.textBig,
+    hasSeenLanding: state.hasSeenLanding,
+    muted: state.muted,
+    customTopics: state.customTopics,
+    aiEnabled: state.aiEnabled,
+    aiProvider: state.aiProvider,
+    aiApiKeys: state.aiApiKeys,
+    aiModel: state.aiModel,
+    bookQuizLen: state.bookQuizLen,
+  })
+}
+
 function persist(state: GameProgress) {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({
-      xp: state.xp,
-      coins: state.coins,
-      progress: state.progress,
-      factsLearned: state.factsLearned,
-      sessions: state.sessions,
-      streak: state.streak,
-      lastPlayed: state.lastPlayed,
-      perfectTopics: state.perfectTopics,
-      playSeconds: state.playSeconds,
-      todaySeconds: state.todaySeconds,
-      todayDate: state.todayDate,
-      dailyLimitMin: state.dailyLimitMin,
-      hiddenTopics: state.hiddenTopics,
-      sessionLen: state.sessionLen,
-      childName: state.childName,
-      avatarVariant: state.avatarVariant,
-      reduceMotion: state.reduceMotion,
-      textBig: state.textBig,
-      hasSeenLanding: state.hasSeenLanding,
-      muted: state.muted,
-    }))
+    localStorage.setItem(STORAGE_KEY, serialize(state))
   } catch { /* silently fail */ }
+}
+
+function persistOrThrow(state: GameProgress) {
+  localStorage.setItem(STORAGE_KEY, serialize(state))
 }
 
 export function gameReducer(state: AppState, action: GameAction): AppState {
   switch (action.type) {
     case 'SET_SCREEN': {
-      return { ...state, screen: action.screen }
+      return { ...state, screen: action.screen, postGateDestination: null }
     }
 
     case 'START_QUIZ': {
-      const t = getTopicByKey(action.topicKey)
-      const qs = getActiveQuestions(t, state.sessionLen)
-      const shuffles = qs.map((q) => shuffleOrder(q.a.length))
+      const t = getTopicByKey(action.topicKey, state.customTopics)
+      const take = Math.min(state.sessionLen, t.questions.length)
+      const questionOrder = shuffleOrder(t.questions.length).slice(0, take)
+      const shuffles = questionOrder.map((qIdx) => shuffleOrder(t.questions[qIdx].a.length))
       const progress = { ...state.progress }
       if (progress[action.topicKey] === undefined) progress[action.topicKey] = 0
       const next = {
@@ -135,6 +176,7 @@ export function gameReducer(state: AppState, action: GameAction): AppState {
         qIndex: 0,
         sessionAnswers: [] as (number | null)[],
         shuffles,
+        questionOrder,
         sessionXp: 0,
         sessionCoins: 0,
         correctCount: 0,
@@ -148,8 +190,9 @@ export function gameReducer(state: AppState, action: GameAction): AppState {
     case 'ANSWER_QUESTION': {
       const qi = state.qIndex
       if (state.sessionAnswers[qi] != null) return state // already answered
-      const t = getTopicByKey(state.topicKey!)
-      const correct = action.answerIndex === t.questions[qi].correct
+      const t = getTopicByKey(state.topicKey!, state.customTopics)
+      const qIdx = state.questionOrder[qi] ?? qi
+      const correct = action.answerIndex === t.questions[qIdx].correct
       const addXp = correct ? GAME_CONSTANTS.XP_CORRECT : GAME_CONSTANTS.XP_TRY
       const addCoins = correct ? GAME_CONSTANTS.COINS_CORRECT : 0
       const sessionAnswers = [...state.sessionAnswers]
@@ -170,7 +213,7 @@ export function gameReducer(state: AppState, action: GameAction): AppState {
     }
 
     case 'NEXT_QUESTION': {
-      const t = getTopicByKey(state.topicKey!)
+      const t = getTopicByKey(state.topicKey!, state.customTopics)
       const qs = getActiveQuestions(t, state.sessionLen)
       if (state.qIndex >= qs.length - 1) {
         // Finalize session
@@ -219,30 +262,77 @@ export function gameReducer(state: AppState, action: GameAction): AppState {
         ...state,
         screen: 'home',
         wonderIdx: Math.floor(Math.random() * 100000),
+        postGateDestination: null,
       }
     }
 
     case 'GO_LANDING': {
-      return { ...state, screen: 'landing' }
+      return { ...state, screen: 'landing', postGateDestination: null }
     }
 
     case 'GO_TOPICS': {
-      return { ...state, screen: 'topics' }
+      return { ...state, screen: 'topics', customTopicSaveError: null, postGateDestination: null }
     }
 
     case 'GO_PARENTS': {
       if (state.parentUnlocked) {
-        return { ...state, screen: 'parents' }
+        return { ...state, screen: 'parents', postGateDestination: null }
       }
-      return { ...state, ...newGate(), screen: 'parents' }
+      return { ...state, ...newGate(), screen: 'parents', postGateDestination: null }
+    }
+
+    case 'GO_QUIZMAKER': {
+      return { ...state, screen: 'quizmaker', customTopicSaveError: null, postGateDestination: null }
+    }
+
+    case 'REQUEST_GATED_SCREEN': {
+      if (state.parentUnlocked) {
+        return { ...state, screen: action.destination, postGateDestination: null }
+      }
+      return { ...state, ...newGate(), screen: 'parents', postGateDestination: action.destination }
+    }
+
+    case 'SAVE_CUSTOM_TOPIC': {
+      const trimmed = [action.topic, ...state.customTopics].slice(0, MAX_CUSTOM_TOPICS)
+      const next = { ...state, customTopics: trimmed }
+      try {
+        persistOrThrow(next)
+        return { ...next, customTopicSaveError: null }
+      } catch {
+        return { ...next, customTopicSaveError: 'QUOTA' }
+      }
+    }
+
+    case 'DELETE_CUSTOM_TOPIC': {
+      const customTopics = state.customTopics.filter((t) => t.key !== action.key)
+      const progress = { ...state.progress }
+      delete progress[action.key]
+      const perfectTopics = { ...state.perfectTopics }
+      delete perfectTopics[action.key]
+      const hiddenTopics = { ...state.hiddenTopics }
+      delete hiddenTopics[action.key]
+      const next = { ...state, customTopics, progress, perfectTopics, hiddenTopics, customTopicSaveError: null }
+      persist(next)
+      return next
+    }
+
+    case 'CLEAR_CUSTOM_TOPICS': {
+      const keys = new Set(state.customTopics.map((t) => t.key))
+      const progress = { ...state.progress }
+      const perfectTopics = { ...state.perfectTopics }
+      const hiddenTopics = { ...state.hiddenTopics }
+      for (const k of keys) {
+        delete progress[k]
+        delete perfectTopics[k]
+        delete hiddenTopics[k]
+      }
+      const next = { ...state, customTopics: [], progress, perfectTopics, hiddenTopics, customTopicSaveError: null }
+      persist(next)
+      return next
     }
 
     case 'PLAY_AGAIN': {
       return gameReducer(state, { type: 'START_QUIZ', topicKey: state.topicKey! })
-    }
-
-    case 'LOAD_PROGRESS': {
-      return { ...state, ...action.progress }
     }
 
     case 'PULSE_COINS_DONE': {
@@ -292,6 +382,15 @@ export function gameReducer(state: AppState, action: GameAction): AppState {
 
     case 'PARENT_GATE_ANSWER': {
       if (action.value === state.gateA + state.gateB) {
+        if (state.postGateDestination) {
+          return {
+            ...state,
+            parentUnlocked: true,
+            gateError: false,
+            screen: state.postGateDestination,
+            postGateDestination: null,
+          }
+        }
         return { ...state, parentUnlocked: true, gateError: false }
       }
       const gate = newGate()
@@ -369,6 +468,44 @@ export function gameReducer(state: AppState, action: GameAction): AppState {
 
     case 'UPDATE_VIEWPORT': {
       return { ...state, vw: action.width }
+    }
+
+    case 'SET_AI_ENABLED': {
+      const next = { ...state, aiEnabled: action.enabled }
+      persist(next)
+      return next
+    }
+
+    case 'SET_AI_PROVIDER': {
+      const next = {
+        ...state,
+        aiProvider: action.provider,
+        aiModel: action.provider ? AI_DEFAULT_MODELS[action.provider] : '',
+      }
+      persist(next)
+      return next
+    }
+
+    case 'SET_AI_API_KEY': {
+      if (!state.aiProvider) return state
+      const next = {
+        ...state,
+        aiApiKeys: { ...state.aiApiKeys, [state.aiProvider]: action.key },
+      }
+      persist(next)
+      return next
+    }
+
+    case 'SET_AI_MODEL': {
+      const next = { ...state, aiModel: action.model }
+      persist(next)
+      return next
+    }
+
+    case 'SET_BOOK_QUIZ_LEN': {
+      const next = { ...state, bookQuizLen: action.len }
+      persist(next)
+      return next
     }
 
     default:

@@ -1,5 +1,9 @@
-import { GameProgress, FeedbackData } from '../types'
-import { STORAGE_KEY, MUTE_KEY, FEEDBACK_KEY } from '../constants/game'
+import { GameProgress, FeedbackData, ScreenName } from '../types'
+import { STORAGE_KEY, MUTE_KEY, FEEDBACK_KEY, SCREEN_KEY } from '../constants/game'
+
+const SCREEN_VALUES: ReadonlySet<ScreenName> = new Set<ScreenName>([
+  'home', 'topics', 'trivia', 'summary', 'progress', 'parents', 'settings', 'landing', 'quizmaker',
+])
 
 export function loadProgress(): Partial<GameProgress> | null {
   try {
@@ -78,6 +82,24 @@ export function loadFeedback(): FeedbackData | null {
 export function saveFeedback(data: FeedbackData): void {
   try {
     localStorage.setItem(FEEDBACK_KEY, JSON.stringify(data))
+  } catch {
+    /* silently fail */
+  }
+}
+
+export function loadLastScreen(): ScreenName | null {
+  try {
+    const raw = localStorage.getItem(SCREEN_KEY)
+    if (!raw) return null
+    return SCREEN_VALUES.has(raw as ScreenName) ? (raw as ScreenName) : null
+  } catch {
+    return null
+  }
+}
+
+export function saveLastScreen(screen: ScreenName): void {
+  try {
+    localStorage.setItem(SCREEN_KEY, screen)
   } catch {
     /* silently fail */
   }
