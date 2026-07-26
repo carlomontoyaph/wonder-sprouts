@@ -1,18 +1,95 @@
-import { useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useGame } from '../../context/GameContext'
 import { ParentGate } from '../../components/ParentGate/ParentGate'
+import { ParentNav, ParentSectionId } from '../../components/ParentNav/ParentNav'
 import { ToggleSwitch } from '../../components/ToggleSwitch/ToggleSwitch'
 import { TOPICS } from '../../data/topics'
 import { PARENT_TIPS } from '../../data/prompts'
 import { formatTime } from '../../utils/format'
 import { GAME_CONSTANTS } from '../../constants/game'
+import { AI_PROVIDER_META } from '../../services/aiProviders'
+import { AiProvider } from '../../types'
 import styles from './ParentsScreen.module.css'
+
+const AI_PROVIDERS: AiProvider[] = ['gemini', 'anthropic', 'openai']
+const SECTION_IDS: ParentSectionId[] = ['stats', 'learning', 'habits', 'ai', 'books']
 
 export function ParentsScreen() {
   const { state, dispatch } = useGame()
   const [showReset, setShowReset] = useState(false)
+  const [showClearBooks, setShowClearBooks] = useState(false)
+  const [keyCheck, setKeyCheck] = useState<null | 'ok' | 'bad'>(null)
+  const [activeSection, setActiveSection] = useState<ParentSectionId>('stats')
+  const sectionRefs = useRef<Record<ParentSectionId, HTMLDivElement | null>>({
+    stats: null,
+    learning: null,
+    habits: null,
+    ai: null,
+    books: null,
+  })
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null)
+  const suppressObserverRef = useRef(false)
+  const suppressTimeoutRef = useRef<number | null>(null)
+  const reduceMotion = state.reduceMotion
+
+  const scrollToSection = useCallback(
+    (id: ParentSectionId) => {
+      const el = sectionRefs.current[id]
+      if (!el) return
+      setActiveSection(id)
+      suppressObserverRef.current = true
+      if (suppressTimeoutRef.current) {
+        window.clearTimeout(suppressTimeoutRef.current)
+      }
+      el.scrollIntoView({
+        behavior: reduceMotion ? 'auto' : 'smooth',
+        block: 'start',
+      })
+      suppressTimeoutRef.current = window.setTimeout(() => {
+        suppressObserverRef.current = false
+      }, reduceMotion ? 80 : 800)
+    },
+    [reduceMotion],
+  )
+
+  useEffect(() => {
+    if (!state.parentUnlocked) return
+    let focus: string | null = null
+    try {
+      focus = sessionStorage.getItem('parents:focus')
+      if (focus) sessionStorage.removeItem('parents:focus')
+    } catch {}
+    if (focus === 'ai') {
+      scrollToSection('ai')
+    }
+  }, [state.parentUnlocked, scrollToSection])
+
+  useEffect(() => {
+    if (!state.parentUnlocked) return
+    const root = scrollContainerRef.current
+    if (!root) return
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (suppressObserverRef.current) return
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0]
+        if (visible) {
+          const id = visible.target.getAttribute('data-section') as ParentSectionId | null
+          if (id) setActiveSection(id)
+        }
+      },
+      { root, rootMargin: '-80px 0px -60% 0px', threshold: 0 },
+    )
+    SECTION_IDS.forEach((id) => {
+      const el = sectionRefs.current[id]
+      if (el) observer.observe(el)
+    })
+    return () => observer.disconnect()
+  }, [state.parentUnlocked])
   const level = Math.floor(state.xp / GAME_CONSTANTS.LEVEL_XP) + 1
+  const customCount = state.customTopics?.length || 0
 
   const factsLearned = state.factsLearned || 0
   const streak = state.streak || 0
@@ -20,9 +97,11 @@ export function ParentsScreen() {
   const limit = state.dailyLimitMin || 0
 
   const childName = (state.childName || '').trim() || 'Your child'
+  const currentKey = state.aiProvider ? state.aiApiKeys[state.aiProvider] || '' : ''
 
   return (
     <motion.div
+      ref={scrollContainerRef}
       initial={{ y: 14, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.35, ease: 'easeOut' }}
@@ -44,6 +123,8 @@ export function ParentsScreen() {
       {/* UNLOCKED DASHBOARD */}
       {state.parentUnlocked && (
         <>
+          <ParentNav active={activeSection} onSelect={scrollToSection} />
+
           <div className={styles.dashboardHeader}>
             <div>
               <div className={styles.dashboardTitle}>Parent dashboard</div>
@@ -55,7 +136,13 @@ export function ParentsScreen() {
           </div>
 
           {/* At a glance */}
-          <div>
+          <div
+            ref={(el) => {
+              sectionRefs.current.stats = el
+            }}
+            data-section="stats"
+            className={styles.jumpTarget}
+          >
             <div className={styles.sectionTitle}>At a glance</div>
             <div className={styles.statGrid}>
               <div className={styles.statBox}>
@@ -80,7 +167,13 @@ export function ParentsScreen() {
           </div>
 
           {/* Learning */}
-          <div>
+          <div
+            ref={(el) => {
+              sectionRefs.current.learning = el
+            }}
+            data-section="learning"
+            className={styles.jumpTarget}
+          >
             <div className={styles.sectionTitle}>Learning</div>
             <div className={styles.controlsCard}>
               {/* Session length */}
@@ -172,7 +265,13 @@ export function ParentsScreen() {
           </div>
 
           {/* Healthy habits */}
-          <div>
+          <div
+            ref={(el) => {
+              sectionRefs.current.habits = el
+            }}
+            data-section="habits"
+            className={styles.jumpTarget}
+          >
             <div className={styles.sectionTitle}>Healthy habits</div>
             <div className={styles.controlsCard}>
               {/* Daily limit */}
@@ -268,6 +367,204 @@ export function ParentsScreen() {
             </div>
           </div>
 
+          {/* AI quiz mode */}
+          <div
+            ref={(el) => {
+              sectionRefs.current.ai = el
+            }}
+            data-section="ai"
+            className={styles.jumpTarget}
+          >
+            <div className={styles.sectionTitle}>AI quiz mode</div>
+            <div className={styles.controlsCard}>
+              <div className={styles.controlRow}>
+                <div>
+                  <div className={styles.controlLabel}>Use AI to make quizzes</div>
+                  <div className={styles.controlDesc}>
+                    Better questions from photos of any book. Bring your own API
+                    key from Anthropic, OpenAI, or Google. Your key stays on this
+                    device — nothing goes to Wonder Sprouts. Anyone with access to
+                    this device can read it.
+                  </div>
+                </div>
+                <ToggleSwitch
+                  enabled={state.aiEnabled}
+                  onToggle={() =>
+                    dispatch({ type: 'SET_AI_ENABLED', enabled: !state.aiEnabled })
+                  }
+                  ariaLabel="Toggle AI quiz mode"
+                />
+              </div>
+
+              {state.aiEnabled && (
+                <>
+                  <div>
+                    <div className={styles.controlLabel} style={{ marginBottom: 8 }}>
+                      Provider
+                    </div>
+                    <div className={styles.pillGroup}>
+                      {AI_PROVIDERS.map((p) => {
+                        const active = state.aiProvider === p
+                        return (
+                          <button
+                            key={p}
+                            onClick={() => {
+                              if (window.FTSound) window.FTSound.tap()
+                              dispatch({ type: 'SET_AI_PROVIDER', provider: p })
+                              setKeyCheck(null)
+                            }}
+                            className={styles.pillBtn}
+                            style={{
+                              background: active ? '#4A3A28' : '#FFFFFF',
+                              color: active ? '#FFFFFF' : '#8A7C68',
+                            }}
+                          >
+                            {AI_PROVIDER_META[p].label}
+                          </button>
+                        )
+                      })}
+                    </div>
+                  </div>
+
+                  {state.aiProvider && (
+                    <>
+                      <div>
+                        <div className={styles.controlLabel} style={{ marginBottom: 8 }}>
+                          API key
+                        </div>
+                        <div className={styles.aiKeyRow}>
+                          <input
+                            type="password"
+                            autoComplete="off"
+                            spellCheck={false}
+                            className={styles.aiKeyInput}
+                            placeholder={AI_PROVIDER_META[state.aiProvider].keyPlaceholder}
+                            value={currentKey}
+                            onChange={(e) => {
+                              dispatch({ type: 'SET_AI_API_KEY', key: e.target.value.trim() })
+                              setKeyCheck(null)
+                            }}
+                          />
+                          <button
+                            className={styles.pillBtn}
+                            style={{ background: '#fff', color: '#8A7C68' }}
+                            onClick={() => {
+                              const meta = AI_PROVIDER_META[state.aiProvider!]
+                              setKeyCheck(meta.keyPattern.test(currentKey) ? 'ok' : 'bad')
+                            }}
+                            disabled={!currentKey}
+                          >
+                            Check
+                          </button>
+                          <button
+                            className={styles.pillBtn}
+                            style={{ background: '#fff', color: '#c8744e', borderColor: '#f0d4cc' }}
+                            onClick={() => {
+                              dispatch({ type: 'SET_AI_API_KEY', key: '' })
+                              setKeyCheck(null)
+                            }}
+                            disabled={!currentKey}
+                          >
+                            Clear
+                          </button>
+                        </div>
+                        <div className={styles.aiKeyHint}>
+                          {keyCheck === 'ok' && (
+                            <span style={{ color: '#4A7A54' }}>
+                              Looks good.
+                            </span>
+                          )}
+                          {keyCheck === 'bad' && (
+                            <span style={{ color: '#c8744e' }}>
+                              That doesn't match this provider's format.
+                            </span>
+                          )}
+                          {keyCheck === null && (
+                            <span>{AI_PROVIDER_META[state.aiProvider].keyHint}</span>
+                          )}
+                        </div>
+
+                        <div className={styles.aiKeyGuide}>
+                          <div className={styles.aiKeyGuideTitle}>
+                            How to get a key
+                          </div>
+                          <ol className={styles.aiKeyGuideSteps}>
+                            {AI_PROVIDER_META[state.aiProvider].keySteps.map(
+                              (step, i) => (
+                                <li key={i}>{step}</li>
+                              ),
+                            )}
+                          </ol>
+                          <div className={styles.aiKeyGuideCost}>
+                            {AI_PROVIDER_META[state.aiProvider].keyCost}
+                          </div>
+                          <a
+                            href={AI_PROVIDER_META[state.aiProvider].keyUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={styles.aiKeyGuideLink}
+                          >
+                            {AI_PROVIDER_META[state.aiProvider].keyUrlLabel} ↗
+                          </a>
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </>
+              )}
+            </div>
+          </div>
+
+          {/* Book quizzes */}
+          <div
+            ref={(el) => {
+              sectionRefs.current.books = el
+            }}
+            data-section="books"
+            className={styles.jumpTarget}
+          >
+            <div className={styles.sectionTitle}>Book quizzes</div>
+            <div className={styles.controlsCard}>
+              <div className={styles.controlRow}>
+                <div>
+                  <div className={styles.controlLabel}>Create a book quiz</div>
+                  <div className={styles.controlDesc}>
+                    Snap pages from a favorite book and turn them into 5
+                    questions. Saved on this device only.{' '}
+                    {customCount > 0 ? `${customCount} saved` : 'None saved yet'}.
+                  </div>
+                </div>
+                <button
+                  className={styles.pillBtn}
+                  style={{ background: '#8A6FBF', color: '#fff', borderColor: '#8A6FBF' }}
+                  onClick={() => {
+                    if (window.FTSound) window.FTSound.tap()
+                    dispatch({ type: 'GO_QUIZMAKER' })
+                  }}
+                >
+                  New
+                </button>
+              </div>
+              {customCount > 0 && (
+                <div className={styles.controlRow}>
+                  <div>
+                    <div className={styles.controlLabel}>Clear book quizzes</div>
+                    <div className={styles.controlDesc}>
+                      Remove every custom quiz. This doesn't affect built-in topics.
+                    </div>
+                  </div>
+                  <button
+                    className={styles.pillBtn}
+                    style={{ background: '#fff', color: '#c8744e', borderColor: '#f0d4cc' }}
+                    onClick={() => setShowClearBooks(true)}
+                  >
+                    Clear
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+
           {/* Tip */}
           <div className={styles.tipCard}>
             <div className={styles.tipHeader}>
@@ -326,6 +623,53 @@ export function ParentsScreen() {
           </div>
         </>
       )}
+
+      {/* Clear book quizzes confirmation modal */}
+      <AnimatePresence>
+        {showClearBooks && (
+          <motion.div
+            className={styles.modalScrim}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.15 }}
+            onClick={() => setShowClearBooks(false)}
+          >
+            <motion.div
+              className={styles.modalCard}
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 22 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className={styles.modalIcon}>📚</div>
+              <div className={styles.modalTitle}>Remove all book quizzes?</div>
+              <div className={styles.modalBody}>
+                This deletes every quiz you made from book photos. Built-in
+                topics stay.
+              </div>
+              <div className={styles.modalButtons}>
+                <button
+                  className={styles.modalCancel}
+                  onClick={() => setShowClearBooks(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  className={styles.modalConfirm}
+                  onClick={() => {
+                    dispatch({ type: 'CLEAR_CUSTOM_TOPICS' })
+                    setShowClearBooks(false)
+                  }}
+                >
+                  Yes, remove them
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Reset confirmation modal */}
       <AnimatePresence>

@@ -1,0 +1,48 @@
+.wrap {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  margin: 0 -20px;
+  padding: 10px 20px 8px;
+  background: rgba(251, 247, 240, 0.94);
+  backdrop-filter: saturate(140%) blur(8px);
+  -webkit-backdrop-filter: saturate(140%) blur(8px);
+  border-bottom: 1.5px solid #efe5d3;
+}
+
+.inner {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.inner::-webkit-scrollbar {
+  display: none;
+}
+
+.pill {
+  flex: none;
+  cursor: pointer;
+  background: #ffffff;
+  border: 1.5px solid #efe2cc;
+  color: #8a7c68;
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+  white-space: nowrap;
+}
+
+.pillActive {
+  background: #e8946a;
+  border-color: #e8946a;
+  color: #ffffff;
+}
+
+:global(.ft-reduce) .pill {
+  transition: none;
+}
