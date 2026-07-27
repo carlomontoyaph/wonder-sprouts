@@ -1,10 +1,10 @@
-export type CategoryKey = 'all' | 'nature' | 'science' | 'world'
+export type CategoryKey = 'all' | 'nature' | 'science' | 'world' | 'books'
 
 export type MascotVariant = 'sprout' | 'berry' | 'pebble' | 'lily' | 'plum' | 'tango'
 
 export type MascotMood = 'happy' | 'cheer' | 'encourage'
 
-export type ScreenName = 'home' | 'topics' | 'trivia' | 'summary' | 'progress' | 'parents' | 'settings' | 'landing'
+export type ScreenName = 'home' | 'topics' | 'trivia' | 'summary' | 'progress' | 'parents' | 'settings' | 'landing' | 'quizmaker'
 
 export interface TopicQuestion {
   q: string
@@ -26,6 +26,8 @@ export interface Topic {
   iconSvg: string
   questions: TopicQuestion[]
   summaryPrompt: string
+  custom?: true
+  createdAt?: number
 }
 
 export interface BadgeDef {
@@ -64,7 +66,15 @@ export interface GameProgress {
   textBig: boolean
   hasSeenLanding: boolean
   muted: boolean
+  customTopics: Topic[]
+  aiEnabled: boolean
+  aiProvider: AiProvider | null
+  aiApiKeys: Partial<Record<AiProvider, string>>
+  aiModel: string
+  bookQuizLen: 3 | 5 | 10
 }
+
+export type AiProvider = 'anthropic' | 'openai' | 'gemini'
 
 export interface SessionState {
   screen: ScreenName
@@ -72,6 +82,7 @@ export interface SessionState {
   qIndex: number
   sessionAnswers: (number | null)[]
   shuffles: number[][]
+  questionOrder: number[]
   sessionXp: number
   sessionCoins: number
   correctCount: number
@@ -87,6 +98,8 @@ export interface SessionState {
   wonderIdx: number
   vw: number
   muted: boolean
+  customTopicSaveError: 'QUOTA' | null
+  postGateDestination: ScreenName | null
 }
 
 export type AppState = GameProgress & SessionState

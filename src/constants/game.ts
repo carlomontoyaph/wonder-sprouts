@@ -20,3 +20,4 @@ export const GAME_CONSTANTS = {
 export const STORAGE_KEY = 'ft_progress'
 export const MUTE_KEY = 'ft_muted'
 export const FEEDBACK_KEY = 'ws_feedback'
+export const SCREEN_KEY = 'ft_last_screen'

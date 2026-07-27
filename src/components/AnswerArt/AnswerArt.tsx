@@ -20,7 +20,7 @@ import { MapArt, ContinentsArt, FlagArt, AsiaArt, AntarcticaArt } from './illust
 import { PianoArt, SingingArt, Drum1Art, Band2Art, FluteArt, BandArt } from './illustrations/artMusic'
 
 // Registry mapping kind strings to illustration components
-const ILLUSTRATIONS: Record<string, FC> = {
+export const ILLUSTRATIONS: Record<string, FC> = {
   // Animals
   giraffe: GiraffeArt,
   honey: HoneyArt,

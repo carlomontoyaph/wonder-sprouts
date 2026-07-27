@@ -12,7 +12,7 @@ import styles from './TriviaScreen.module.css'
 
 export function TriviaScreen() {
   const { state, dispatch } = useGame()
-  const topic = getTopicByKey(state.topicKey!)
+  const topic = getTopicByKey(state.topicKey!, state.customTopics)
   const total = getActiveQuestions(topic, state.sessionLen).length
 
   // Timer state
@@ -65,7 +65,8 @@ export function TriviaScreen() {
     const s = sec % 60
     return `${m}:${s.toString().padStart(2, '0')}`
   }
-  const q = topic.questions[state.qIndex]
+  const qIdx = state.questionOrder?.[state.qIndex] ?? state.qIndex
+  const q = topic.questions[qIdx]
   const order =
     state.shuffles && state.shuffles[state.qIndex]
       ? state.shuffles[state.qIndex]

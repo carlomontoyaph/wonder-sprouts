@@ -7,7 +7,7 @@
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
-  padding: 22px 20px 28px;
+  padding: 0 20px 28px;
   gap: 18px;
 }
 
@@ -50,6 +50,10 @@
   font-size: 14px;
   color: #8a7c68;
   margin: 0 2px 9px;
+}
+
+.jumpTarget {
+  scroll-margin-top: 72px;
 }
 
 .statGrid {
@@ -356,4 +360,106 @@
   font-size: 13px;
   padding: 8px 14px;
   border-radius: 999px;
+}
+
+.aiSelect {
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  color: #4a3a28;
+  background: #fbf7f0;
+  border: 1.5px solid #efe2cc;
+  border-radius: 12px;
+  padding: 8px 12px;
+  cursor: pointer;
+  min-width: 160px;
+}
+
+.aiKeyRow {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.aiKeyInput {
+  flex: 1 1 220px;
+  min-width: 0;
+  font-family: Nunito, sans-serif;
+  font-size: 14px;
+  color: #4a3a28;
+  background: #fbf7f0;
+  border: 1.5px solid #efe2cc;
+  border-radius: 14px;
+  padding: 10px 12px;
+  letter-spacing: 0.02em;
+}
+
+.aiKeyInput:focus {
+  outline: none;
+  border-color: #c9a24b;
+}
+
+.aiKeyHint {
+  margin-top: 8px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #9a8e7c;
+}
+
+.aiKeyGuide {
+  margin-top: 4px;
+  background: #fbf7f0;
+  border: 1.5px solid #efe2cc;
+  border-radius: 14px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.aiKeyGuideTitle {
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #8a7c68;
+}
+
+.aiKeyGuideSteps {
+  margin: 0;
+  padding-left: 20px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: #4a3a28;
+  font-weight: 600;
+  list-style: decimal;
+}
+
+.aiKeyGuideSteps li {
+  margin-bottom: 4px;
+}
+
+.aiKeyGuideSteps li:last-child {
+  margin-bottom: 0;
+}
+
+.aiKeyGuideCost {
+  font-size: 12px;
+  font-weight: 700;
+  color: #5c8560;
+}
+
+.aiKeyGuideLink {
+  align-self: flex-start;
+  background: #fff;
+  color: #4a3a28;
+  border: 1.5px solid #efe2cc;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  text-decoration: none;
 }
